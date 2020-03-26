@@ -125,12 +125,12 @@ if (!is.null(opt$tree) ) {
 #diversity and number of sequences options
 if (!is.null(opt$div) ) {
     final_set <- dist
-    while (nrow(dist) > 5) {
-      cdists = rowSums(dist)
+    while (nrow(final_set) > n) {
+      cdists = rowSums(final_set)
       closest <- which(cdists == min(cdists))[1]
-      final_set <- final_set[-closest,]
-      dist <- dist[-closest,-closest]
+      final_set <- final_set[-closest,-closest]
     }
+    write.table(row.names(final_set), file = "diverse_sequences.txt", sep = '\n', row.names = FALSE, col.names = FALSE)
 }
 
 
