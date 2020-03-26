@@ -1,6 +1,11 @@
 #!/path/to/Rscript
 
 #library to use getops
+if (!requireNamespace("getopt", quietly = TRUE)){
+  install.packages("BiocManager")
+  BiocManager::install("getopt")
+}
+
 library('getopt')
 
 #help option as a function
@@ -41,6 +46,19 @@ if (!is.null(opt$version) ) {
 }
 
 #libraries needed for sequence alignment
+if (!requireNamespace("seqinr", quietly = TRUE)){
+  install.packages("BiocManager")
+  BiocManager::install("seqinr")
+}
+if (!requireNamespace("DECIPHER", quietly = TRUE)){
+  install.packages("BiocManager")
+  BiocManager::install("DECIPHER")
+}
+if (!requireNamespace("ape", quietly = TRUE)){
+  install.packages("BiocManager")
+  BiocManager::install("ape")
+}
+
 library("seqinr")
 library("DECIPHER")
 library("ape")
