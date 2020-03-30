@@ -1,9 +1,13 @@
 #!/path/to/Rscript
 
+#library to install BioConductor
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager", repos='https://cloud.r-project.org')
+BiocManager::install()
+
 #library to use getops
 if (!requireNamespace("getopt", quietly = TRUE)){
-  install.packages("BiocManager")
-  BiocManager::install("getopt")
+  install.packages("getopt", repos='https://cloud.r-project.org')
 }
 
 library('getopt')
@@ -47,16 +51,13 @@ if (!is.null(opt$version) ) {
 
 #libraries needed for sequence alignment
 if (!requireNamespace("seqinr", quietly = TRUE)){
-  install.packages("BiocManager")
-  BiocManager::install("seqinr")
+  install.packages("seqinr", repos='https://cloud.r-project.org')
 }
 if (!requireNamespace("DECIPHER", quietly = TRUE)){
-  install.packages("BiocManager")
   BiocManager::install("DECIPHER")
 }
 if (!requireNamespace("ape", quietly = TRUE)){
-  install.packages("BiocManager")
-  BiocManager::install("ape")
+  install.packages("ape", repos='https://cloud.r-project.org')
 }
 
 library("seqinr")
