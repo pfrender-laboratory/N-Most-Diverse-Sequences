@@ -15,7 +15,7 @@ library('getopt')
 #help option as a function
 help_opt = function() {
   cat("-v version\n-h help\n-i input file\n-n number of sequences we want
--t produce tree\n-d run diversity method\n-o output file\n")
+-t produce tree\n-d run diversity method\n-a aligned sequences file\n-p project\n")
 }
 
 #Version
@@ -25,11 +25,12 @@ ver = ".01"
 spec = matrix(c(
   'version', 'v', 0, 'double',
   'help', 'h', 0, 'character', 
-  'input', 'i', 2, 'character',
+  'input', 'i', 1, 'character',
   'num', 'n', 2, 'integer', 
   'tree', 't', 0, 'character',
-  'div', 'd', 2, 'integer',
-  'output', 'o', 1, 'character'
+  'div', 'd', 0, 'integer',
+  'aligned', 'a', 0, 'character',
+  'project', 'p', 0, 'charcter'
 ), byrow=TRUE, ncol=4)
 opt = getopt(spec)
 
@@ -100,12 +101,21 @@ if (!is.null(opt$tree) ) {
                                  list(leaf=attr(n, "label"))))
     n
   })
-  
-  WriteDendrogram(dend, file = "dendrogram")
-  tree = read.tree(file="dendrogram") #option one, save dendrogram to a file then read in the file as a tree.
-  
+  #write dendrogram to file then read in as tree
+  if(!is.null(opt$project)){
+    WriteDendrogram(dend, file = "project1_dend")
+    tree = read.tree(file = "project1_dend")
+  }else{
+    WriteDendrogram(dend, file = "out_dend")
+    tree = read.tree(file="out_dend") 
+  }
+ 
   #Display tree
-  jpeg(filename = "test_tree.jpg", width = 500, height = 350)
+  if(!is.null(opt$project)){
+    jpeg(filename = "project1_tree.jpg", width = 500, height = 350)
+  }else{
+    jpeg(filename = "out_tree.jpg", width = 500, height = 350)
+  }
   p = par(mar=c(1, 1, 1, 10),
            xpd=TRUE)
   plot(tree,
@@ -131,20 +141,27 @@ if (!is.null(opt$div) ) {
       closest <- which(cdists == min(cdists))[1]
       final_set <- final_set[-closest,-closest]
     }
-    write.table(row.names(final_set), file = "diverse_sequences.txt", sep = '\n', row.names = FALSE, col.names = FALSE)
+    if(!is.null(opt$project)){
+      write.table(row.names(final_set), file = "project1_diverse_sequences.txt", sep = '\n', row.names = FALSE, col.names = FALSE)
+    }else{
+      write.table(row.names(final_set), file = "out_diverse_sequences.txt", sep = '\n', row.names = FALSE, col.names = FALSE)
+    }
 }
 
 
-#output option
-if (!is.null(opt$output) ){
-  writeXStringSet(aligned_seqs, file= opt$output) #write to new file
-  q(status=1)
-}else{
-  help_opt()
-  q(status=1)
+#aligned option
+if (!is.null(opt$aligned) ){
+  if(!is.null(opt$project)){
+    writeXStringSet(aligned_seqs, file = "project1_aligned_seqs") 
+  }else{
+    writeXStringSet(aligned_seqs, file = "out_aligned_seqs") 
+  }
 }
 
 
 #if nothing selected
-help_opt()
+if(is.null(opt$num) & is.null(opt$tree) & is.null(opt$div) & 
+   is.null(opt$aligned) & is.null(opt$project)){
+  help_opt()
+}
 
