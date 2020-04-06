@@ -1,9 +1,5 @@
 #!/path/to/Rscript
 
-#library to install BioConductor
-if (!requireNamespace("BiocManager", quietly = TRUE))
-    install.packages("BiocManager", repos='https://cloud.r-project.org')
-BiocManager::install()
 
 #library to use getops
 if (!requireNamespace("getopt", quietly = TRUE)){
@@ -55,6 +51,10 @@ if (!requireNamespace("seqinr", quietly = TRUE)){
   install.packages("seqinr", repos='https://cloud.r-project.org')
 }
 if (!requireNamespace("DECIPHER", quietly = TRUE)){
+  #library to install BioConductor
+  if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager", repos='https://cloud.r-project.org')
+  BiocManager::install()
   BiocManager::install("DECIPHER")
 }
 if (!requireNamespace("ape", quietly = TRUE)){
@@ -136,16 +136,29 @@ if (!is.null(opt$tree) ) {
 #diversity and number of sequences options
 if (!is.null(opt$div) ) {
     final_set <- dist
-    while (nrow(final_set) > n) {
+    if(n == 1){
       cdists = rowSums(final_set)
-      closest <- which(cdists == min(cdists))[1]
-      final_set <- final_set[-closest,-closest]
-    }
-    if(!is.null(opt$project)){
-      write.table(row.names(final_set), file = "project1_diverse_sequences.txt", sep = '\n', row.names = FALSE, col.names = FALSE)
+      closest <- which(cdists == max(cdists))[1]
+      
+      if(!is.null(opt$project)){
+        write.table(closest, file = "project1_diverse_sequences.txt",  col.names = FALSE )
+      }else{
+        write.table(closest, file = "out_diverse_sequences.txt", col.names = FALSE)
+      }
     }else{
-      write.table(row.names(final_set), file = "out_diverse_sequences.txt", sep = '\n', row.names = FALSE, col.names = FALSE)
+      while (nrow(final_set) > n) {#!is.null(nrow(final_set)) & 
+        cdists = rowSums(final_set)
+        closest <- which(cdists == min(cdists))[1]
+        final_set <- final_set[-closest,-closest]
+      }
+      if(!is.null(opt$project)){
+        write.table(row.names(final_set), file = "project1_diverse_sequences.txt", sep = '\n', row.names = FALSE, col.names = FALSE)
+      }else{
+        write.table(row.names(final_set), file = "out_diverse_sequences.txt", sep = '\n', row.names = FALSE, col.names = FALSE)
+      }
     }
+    
+    
 }
 
 
