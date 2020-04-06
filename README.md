@@ -11,14 +11,14 @@ How to run: The script is run on the command line with the following command and
      Rscript n_seq_script.R 
 
 Flags:
-1. -h Help – display all flags
-2. -v Version – display version of script
-3. -i Input – required argument to specify input .fasta or .afa file
-4. -t Tree – produces .jpeg phylogenic tree
-5. -a Aligned - writes file of aligned sequences
-6. -d Diversity - writes file with the names of the 'n' most diverse sequences
-7. -n Num - number of sequences desired for diversity methods. The default is 1.
-8. -p Project - all files created will start with 'project1...'
+1. -h ...Help – display all flags
+2. -v ...Version – display version of script
+3. -i <file_name>...Input – required argument to specify input .fasta or .afa file
+4. -t ...Tree – produces .jpeg phylogenic tree
+5. -a ...Aligned - writes file of aligned sequences
+6. -d ...Diversity - writes file with the names of the 'n' most diverse sequences
+7. -n <integer>...Num - number of sequences desired for diversity methods. The default is 1.
+8. -p ...Project - all files created will start with 'project1...'
 
 
 Principle software used: R Version 3.6.3
