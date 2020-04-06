@@ -139,7 +139,6 @@ if (!is.null(opt$div) ) {
     if(n == 1){
       cdists = rowSums(final_set)
       closest <- which(cdists == max(cdists))[1]
-      
       if(!is.null(opt$project)){
         write.table(closest, file = "project1_diverse_sequences.txt",  col.names = FALSE )
       }else{
