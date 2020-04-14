@@ -26,7 +26,7 @@ spec = matrix(c(
   'tree', 't', 0, 'character',
   'div', 'd', 0, 'integer',
   'aligned', 'a', 0, 'character',
-  'project', 'p', 0, 'charcter'
+  'project', 'p', 1, 'character'
 ), byrow=TRUE, ncol=4)
 opt = getopt(spec)
 
@@ -103,8 +103,8 @@ if (!is.null(opt$tree) ) {
   })
   #write dendrogram to file then read in as tree
   if(!is.null(opt$project)){
-    WriteDendrogram(dend, file = "project1_dend")
-    tree = read.tree(file = "project1_dend")
+    WriteDendrogram(dend, file = paste(opt$project, "_dend"))
+    tree = read.tree(file = paste(opt$project, "_dend"))
   }else{
     WriteDendrogram(dend, file = "out_dend")
     tree = read.tree(file="out_dend") 
@@ -112,7 +112,7 @@ if (!is.null(opt$tree) ) {
  
   #Display tree
   if(!is.null(opt$project)){
-    jpeg(filename = "project1_tree.jpg", width = 500, height = 350)
+    jpeg(filename = paste(opt$project, "_tree.jpg"), width = 500, height = 350)
   }else{
     jpeg(filename = "out_tree.jpg", width = 500, height = 350)
   }
@@ -140,18 +140,18 @@ if (!is.null(opt$div) ) {
       cdists = rowSums(final_set)
       closest <- which(cdists == max(cdists))[1]
       if(!is.null(opt$project)){
-        write.table(closest, file = "project1_diverse_sequences.txt",  col.names = FALSE )
+        write.table(closest, file = paste(opt$project, "_diverse_sequences.txt"),  col.names = FALSE )
       }else{
         write.table(closest, file = "out_diverse_sequences.txt", col.names = FALSE)
       }
     }else{
-      while (nrow(final_set) > n) {#!is.null(nrow(final_set)) & 
+      while (nrow(final_set) > n) { 
         cdists = rowSums(final_set)
         closest <- which(cdists == min(cdists))[1]
         final_set <- final_set[-closest,-closest]
       }
       if(!is.null(opt$project)){
-        write.table(row.names(final_set), file = "project1_diverse_sequences.txt", sep = '\n', row.names = FALSE, col.names = FALSE)
+        write.table(row.names(final_set), file = paste(opt$project, "_diverse_sequences.txt"), sep = '\n', row.names = FALSE, col.names = FALSE)
       }else{
         write.table(row.names(final_set), file = "out_diverse_sequences.txt", sep = '\n', row.names = FALSE, col.names = FALSE)
       }
@@ -164,7 +164,7 @@ if (!is.null(opt$div) ) {
 #aligned option
 if (!is.null(opt$aligned) ){
   if(!is.null(opt$project)){
-    writeXStringSet(aligned_seqs, file = "project1_aligned_seqs") 
+    writeXStringSet(aligned_seqs, file = paste(opt$project, "_aligned_seqs")) 
   }else{
     writeXStringSet(aligned_seqs, file = "out_aligned_seqs") 
   }
