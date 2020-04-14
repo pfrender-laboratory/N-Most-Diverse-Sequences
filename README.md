@@ -8,7 +8,7 @@ Summary of script purpose: The program reads in a .fasta or .afa file of sequenc
 
 How to run: The script is run on the command line with the following command and optional flags:
   
-     Rscript n_seq_script.R 
+     Rscript n_seq_script.R -i <input_file_name> 
 
 Flags:
 1. -h ...Help – display all flags
@@ -18,7 +18,7 @@ Flags:
 5. -a ...Aligned - writes file of aligned sequences
 6. -d ...Diversity - writes file with the names of the 'n' most diverse sequences
 7. -n <integer>...Num - number of sequences desired for diversity methods. The default is 1.
-8. -p ...Project - all files created will start with 'project1...'
+8. -p <string>...Project - all files created will start with '<argument user entered>...'
 
 
 Principle software used: R Version 3.6.3
