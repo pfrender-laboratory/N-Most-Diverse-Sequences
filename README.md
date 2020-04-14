@@ -17,8 +17,8 @@ Flags:
 4. -t ...Tree – produces .jpeg phylogenic tree
 5. -a ...Aligned - writes file of aligned sequences
 6. -d ...Diversity - writes file with the names of the 'n' most diverse sequences
-7. -n <integer>...Num - number of sequences desired for diversity methods. The default is 1.
-8. -p <string>...Project - all files created will start with '<argument user entered>...'
+7. -n <integer_value>...Num - number of sequences desired for diversity methods. The default is 1.
+8. -p <string_for_file_name>...Project - all files created will start with '<argument_user_entered>...'
 
 
 Principle software used: R Version 3.6.3
