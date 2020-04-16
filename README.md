@@ -1,3 +1,5 @@
+[![DOI](https://zenodo.org/badge/256243360.svg)](https://zenodo.org/badge/latestdoi/256243360)
+
 # N-Most-Diverse-Sequences
 
 Summary of script purpose: The program reads in a .fasta or .afa file of sequences and, following an alignment of the sequences and creation of a distance matrix, can do any combination of the following options:
@@ -49,7 +51,6 @@ Problems encountered while writing/running:
 Project links:
 - https://github.com/pfrender-laboratory/N-Most-Diverse-Sequences
 
-DOI:
-- [![DOI](https://zenodo.org/badge/256243360.svg)](https://zenodo.org/badge/latestdoi/256243360)
+Cite:
 
-
+michalekb. 2020. “Michalekb/N-Most-Diverse-Sequences: N-Most-Diverse-Sequences,” April. https://doi.org/10.5281/ZENODO.3754619.
