@@ -53,4 +53,4 @@ Project links:
 
 Cite:
 
-michalekb. 2020. “Michalekb/N-Most-Diverse-Sequences: N-Most-Diverse-Sequences,” April. https://doi.org/10.5281/ZENODO.3754619.
+ - michalekb. 2020. “Michalekb/N-Most-Diverse-Sequences: N-Most-Diverse-Sequences,” April. https://doi.org/10.5281/ZENODO.3754619.
