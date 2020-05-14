@@ -15,7 +15,7 @@ help_opt = function() {
 }
 
 #Version
-ver = ".01"
+ver = "2.0"
 
 #getopt matrix
 spec = matrix(c(
@@ -24,9 +24,10 @@ spec = matrix(c(
   'input', 'i', 1, 'character',
   'num', 'n', 2, 'integer', 
   'tree', 't', 0, 'character',
-  'div', 'd', 0, 'integer',
+  'cluster', 'c', 0, 'integer',
   'aligned', 'a', 0, 'character',
-  'project', 'p', 1, 'character'
+  'project', 'p', 1, 'character',
+  'diversity', 'd', 0, 'integer'
 ), byrow=TRUE, ncol=4)
 opt = getopt(spec)
 
@@ -60,10 +61,14 @@ if (!requireNamespace("DECIPHER", quietly = TRUE)){
 if (!requireNamespace("ape", quietly = TRUE)){
   install.packages("ape", repos='https://cloud.r-project.org')
 }
+if (!requireNamespace("factoextra", quietly = TRUE)){
+  install.packages("factoextra", repos='https://cloud.r-project.org')
+}
 
 library("seqinr")
 library("DECIPHER")
 library("ape")
+library("factoextra")
 
 
 #input option
@@ -86,6 +91,7 @@ if (!is.null(opt$num) ){
 #calculate distance matrix
 dist = DistanceMatrix(aligned_seqs, type = "matrix", includeTerminalGaps = TRUE, 
                       penalizeGapGapMatches = FALSE, penalizeGapLetterMatches = FALSE)
+
 #tree option
 if (!is.null(opt$tree) ) {
   #Create tree by clustering sequences
@@ -134,15 +140,15 @@ if (!is.null(opt$tree) ) {
 }
 
 #diversity and number of sequences options
-if (!is.null(opt$div) ) {
+if (!is.null(opt$diversity) ) {
     final_set <- dist
     if(n == 1){
       cdists = rowSums(final_set)
-      closest <- which(cdists == max(cdists))[1]
+      farthest <- which(cdists == max(cdists))[1]
       if(!is.null(opt$project)){
-        write.table(closest, file = paste(opt$project, "_diverse_sequences.txt"),  col.names = FALSE )
+        write.table(farthest, file = paste(opt$project, "_diverse_sequences.txt"),  col.names = FALSE )
       }else{
-        write.table(closest, file = "out_diverse_sequences.txt", col.names = FALSE)
+        write.table(farthest, file = "out_diverse_sequences.txt", col.names = FALSE)
       }
     }else{
       while (nrow(final_set) > n) { 
@@ -156,9 +162,29 @@ if (!is.null(opt$div) ) {
         write.table(row.names(final_set), file = "out_diverse_sequences.txt", sep = '\n', row.names = FALSE, col.names = FALSE)
       }
     }
-    
-    
 }
+
+if (!is.null(opt$cluster) ){
+  clusters = hcut(dist, k = n)
+  seq_list = c()
+  for(i in 1:n){
+    final_set <- dist[,colnames(dist) %in% names(clusters$cluster[clusters$cluster[] == i])]
+    if(is.null(ncol(final_set))){
+      seq_list <- append(seq_list, names(clusters$cluster[clusters$cluster[] == i]))
+    }else{
+      cdists <- colSums(final_set)
+      farthest <- which(cdists == max(cdists))
+      seq_list <- append(seq_list, names(farthest))
+    }
+  }
+  
+  if(!is.null(opt$project)){
+    write.table(seq_list, file = paste(opt$project, "_diverse_sequences.txt"), sep = '\n', row.names = FALSE, col.names = FALSE)
+  }else{
+    write.table(seq_list, file = "out_diverse_sequences.txt", sep = '\n', row.names = FALSE, col.names = FALSE)
+  }
+}
+
 
 
 #aligned option
